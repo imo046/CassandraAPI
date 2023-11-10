@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - 127.0.0.1:9042:9042
+    volumes:
+      - /home/igor/Downloads/cassandra:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks:
+     - cassandra
+networks:
+  cassandra:
