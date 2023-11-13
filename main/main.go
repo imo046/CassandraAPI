@@ -31,18 +31,22 @@ func main() {
 		Router:  mux.NewRouter().StrictSlash(true),
 		Handler: &myHandler,
 	}
-	r.Home()
-	r.Create()
-	r.GetOne()
-	r.GetAll()
-	r.Count()
-	r.Delete()
-	r.DeleteAll()
-	r.Update()
+	//routes
+	r.Home("/")
+	r.Create("/create")
+	r.GetOne("/count")
+	r.GetAll("/get/{entry_id}")
+	r.Count("/getAll")
+	r.Delete("/delete/{entry_id}")
+	r.DeleteAll("/deleteAll")
+	r.Update("/update/{entry_id}")
 
 	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
 	origins := handlers.AllowedOrigins([]string{"*"})
+
+	r.Router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+
 	if serveErr := http.ListenAndServe(":4040", handlers.CORS(headers, methods, origins)(r.Router)); serveErr != nil {
 		utils.Panic(serveErr, "Failed to run a backend")
 	}
