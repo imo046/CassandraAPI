@@ -34,9 +34,9 @@ func main() {
 	//routes
 	r.Home("/")
 	r.Create("/create")
-	r.GetOne("/count")
-	r.GetAll("/get/{entry_id}")
-	r.Count("/getAll")
+	r.GetOne("/get/{entry_id")
+	r.GetAll("/getAll")
+	r.Count("/count")
 	r.Delete("/delete/{entry_id}")
 	r.DeleteAll("/deleteAll")
 	r.Update("/update/{entry_id}")

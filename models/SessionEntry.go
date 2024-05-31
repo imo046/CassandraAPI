@@ -1,6 +1,6 @@
 package models
 
-type DbEntry struct {
+type SessionEntry struct {
 	EntryId  string `json:"entry_id"`
 	EntryVal int    `json:"entry_val"`
 }

@@ -6,7 +6,7 @@ services:
     ports:
       - 127.0.0.1:9042:9042
     volumes:
-      - /home/igor/Downloads/cassandra:/var/lib/cassandra
+      - /home/imo046/cassandra:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=MyCluster
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch

@@ -21,7 +21,7 @@ func (h Handler) HomeLink(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h Handler) CreateEntry(w http.ResponseWriter, r *http.Request) {
-	var entry models.DbEntry
+	var entry models.SessionEntry
 	requestBody, err := io.ReadAll(r.Body)
 	utils.Panic(err, "Failed to read request body!")
 	unmarshallErr := json.Unmarshal(requestBody, &entry)
@@ -36,12 +36,12 @@ func (h Handler) CreateEntry(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h Handler) GetEntries(w http.ResponseWriter, r *http.Request) {
-	var entries []models.DbEntry
+	var entries []models.SessionEntry
 	m := make(map[string]interface{})
 
 	iter := h.S.Query("SELECT * FROM db_entries").Iter()
 	for iter.MapScan(m) {
-		entries = append(entries, models.DbEntry{
+		entries = append(entries, models.SessionEntry{
 			EntryId:  m["entry_id"].(string),
 			EntryVal: m["entry_val"].(int),
 		})
@@ -53,11 +53,11 @@ func (h Handler) GetEntries(w http.ResponseWriter, r *http.Request) {
 
 func (h Handler) GetEntry(w http.ResponseWriter, r *http.Request) {
 	entryID := mux.Vars(r)["entry_id"]
-	var entries []models.DbEntry
+	var entries []models.SessionEntry
 	m := make(map[string]interface{})
 	iter := h.S.Query("SELECT * FROM db_entries WHERE entry_id=?", entryID).Iter()
 	for iter.MapScan(m) {
-		entries = append(entries, models.DbEntry{
+		entries = append(entries, models.SessionEntry{
 			EntryId:  m["entry_id"].(string),
 			EntryVal: m["entry_val"].(int),
 		})
@@ -90,7 +90,7 @@ func (h Handler) DeleteAll(w http.ResponseWriter, r *http.Request) {
 }
 func (h Handler) Update(w http.ResponseWriter, r *http.Request) {
 	entryID := mux.Vars(r)["entry_id"]
-	var updated models.DbEntry
+	var updated models.SessionEntry
 	reqBody, err := io.ReadAll(r.Body)
 	utils.Panic(err, "Failed to read request body!")
 	json.Unmarshal(reqBody, &updated)
